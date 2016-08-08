@@ -1380,6 +1380,7 @@ function WebGLRenderer( parameters ) {
 		} while ( ++ i !== numPlanes );
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 			} while ( ++ i !== numPlanes );
 
 			return false;
@@ -1396,6 +1397,9 @@ function WebGLRenderer( parameters ) {
 			return true;
 
 		}
+=======
+		return true;
+>>>>>>> parent of 3e55af2... WebGLRenderer has option to specify clipping method
 =======
 		return true;
 >>>>>>> parent of 3e55af2... WebGLRenderer has option to specify clipping method
