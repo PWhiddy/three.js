@@ -1386,8 +1386,6 @@ function WebGLRenderer( parameters ) {
 
 			return false;
 
-		}
-
 		} else {
 
 			do {
