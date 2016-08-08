@@ -87,7 +87,6 @@ function WebGLRenderer( parameters ) {
 
 	this.clippingPlanes = [];
 	this.localClippingEnabled = false;
-	this.clipIntersection = false;
 
 	// physically based shading
 
@@ -156,7 +155,6 @@ function WebGLRenderer( parameters ) {
 	_clipping = new WebGLClipping(),
 	_clippingEnabled = false,
 	_localClippingEnabled = false,
-	_clipIntersection = false,
 
 	_sphere = new Sphere(),
 
@@ -1155,8 +1153,7 @@ function WebGLRenderer( parameters ) {
 		lensFlares.length = 0;
 
 		_localClippingEnabled = this.localClippingEnabled;
-		_clipIntersection = this.clipIntersection;
-		_clippingEnabled = _clipping.init( this.clippingPlanes, _localClippingEnabled, _clipIntersection, camera );
+		_clippingEnabled = _clipping.init( this.clippingPlanes, _localClippingEnabled, camera );
 
 		projectObject( scene, camera );
 
@@ -1375,13 +1372,14 @@ function WebGLRenderer( parameters ) {
 			negRad = - sphere.radius,
 			i = 0;
 
-		if ( _clipping.clipIntersection ) {
+		do {
 
-			do {
+			// out when deeper than radius in the negative halfspace
+			if ( planes[ i ].distanceToPoint( center ) < negRad ) return false;
 
-				// out when deeper than radius in the negative halfspace
-				if ( planes[ i ].distanceToPoint( center ) > negRad ) return true;
+		} while ( ++ i !== numPlanes );
 
+<<<<<<< HEAD
 			} while ( ++ i !== numPlanes );
 
 			return false;
@@ -1398,6 +1396,9 @@ function WebGLRenderer( parameters ) {
 			return true;
 
 		}
+=======
+		return true;
+>>>>>>> parent of 3e55af2... WebGLRenderer has option to specify clipping method
 
 	}
 
@@ -1542,7 +1543,7 @@ function WebGLRenderer( parameters ) {
 		var materialProperties = properties.get( material );
 
 		var parameters = programCache.getParameters(
-				material, _lights, fog, _clipping.numPlanes, _clipping.clipIntersection, object );
+				material, _lights, fog, _clipping.numPlanes, object );
 
 		var code = programCache.getProgramCode( material, parameters );
 
@@ -1644,7 +1645,6 @@ function WebGLRenderer( parameters ) {
 				! ( material && material.isRawShaderMaterial ) ||
 				material.clipping === true ) {
 
-			materialProperties.clipIntersection = _clipping.clipIntersection;
 			materialProperties.numClippingPlanes = _clipping.numPlanes;
 			uniforms.clippingPlanes = _clipping.uniform;
 
@@ -1734,8 +1734,7 @@ function WebGLRenderer( parameters ) {
 			}
 
 			if ( materialProperties.numClippingPlanes !== undefined &&
-				( materialProperties.numClippingPlanes !== _clipping.numPlanes || 
-				   materialProperties.clipIntersection !== _clipping.clipIntersection ) ) {
+				materialProperties.numClippingPlanes !== _clipping.numPlanes ) {
 
 				material.needsUpdate = true;
 
