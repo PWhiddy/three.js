@@ -18,5 +18,7 @@
 			if ( dot( vViewPosition, plane.xyz ) > plane.w ) discard;
 
 		}
+		
+	#endif
 
 #endif
