@@ -8,6 +8,7 @@ function WebGLClipping() {
 		globalState = null,
 		numGlobalPlanes = 0,
 		localClippingEnabled = false,
+		clipIntersection = false,
 		renderingShadows = false,
 
 		plane = new Plane(),
@@ -16,9 +17,10 @@ function WebGLClipping() {
 		uniform = { value: null, needsUpdate: false };
 
 	this.uniform = uniform;
+	this.clipIntersection = false;
 	this.numPlanes = 0;
 
-	this.init = function( planes, enableLocalClipping, camera ) {
+	this.init = function( planes, enableLocalClipping, enableClipIntersection, camera ) {
 
 		var enabled =
 			planes.length !== 0 ||
@@ -29,6 +31,8 @@ function WebGLClipping() {
 			localClippingEnabled;
 
 		localClippingEnabled = enableLocalClipping;
+		clipIntersection = enableClipIntersection;
+		scope.clipIntersection = enableClipIntersection;
 
 		globalState = projectPlanes( planes, camera, 0 );
 		numGlobalPlanes = planes.length;

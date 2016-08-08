@@ -446,6 +446,7 @@ WebGLProgram = ( function () {
 				parameters.flipSided ? '#define FLIP_SIDED' : '',
 
 				'#define NUM_CLIPPING_PLANES ' + parameters.numClippingPlanes,
+				'#define CLIP_INTERSECTION ' + (parameters.clipIntersection ? 1: 0),
 
 				parameters.shadowMapEnabled ? '#define USE_SHADOWMAP' : '',
 				parameters.shadowMapEnabled ? '#define ' + shadowMapTypeDefine : '',
